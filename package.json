@@ -1,0 +1,39 @@
+{
+  "name": "work-mate",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5173 --strictPort",
+    "dev:server": "npm run dev --prefix server",
+    "dev:all": "concurrently -n web,api -c blue,green \"npm run dev\" \"npm run dev:server\"",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "db:setup": "npm run db:setup --prefix server",
+    "db:migrate": "npm run db:migrate --prefix server",
+    "db:migrate:dashboard": "npm run db:migrate:dashboard --prefix server",
+    "db:migrate:jobs": "npm run db:migrate:jobs --prefix server",
+    "db:migrate:jobs-profiles": "npm run db:migrate:jobs-profiles --prefix server",
+    "db:seed": "npm run db:seed --prefix server",
+    "server:install": "npm install --prefix server"
+  },
+  "dependencies": {
+    "openai": "^7.1.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.18.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "concurrently": "^10.0.4",
+    "eslint": "^10.6.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "globals": "^17.7.0",
+    "vite": "^8.1.1"
+  }
+}

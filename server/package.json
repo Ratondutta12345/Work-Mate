@@ -1,0 +1,25 @@
+{
+  "name": "work-mate-server",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "db:setup": "node src/setupDb.js",
+    "db:migrate": "node src/migrate.js",
+    "db:migrate:dashboard": "node src/migrateDashboard.js",
+    "db:migrate:jobs": "node src/migrateJobs.js",
+    "db:migrate:jobs-profiles": "node src/migrateJobsProfiles.js",
+    "db:seed": "node src/seed.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.25.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.3"
+  }
+}
