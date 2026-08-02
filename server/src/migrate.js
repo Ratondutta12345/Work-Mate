@@ -20,11 +20,36 @@ async function runSqlFile(connection, filePath) {
 }
 
 export async function migrate() {
+  // Connect without a database first, since the target database may not
+  // exist yet. Explicitly create it here rather than relying solely on the
+  // "CREATE DATABASE IF NOT EXISTS" / "USE" statements inside schema.sql,
+  // since those depend on the same connection carrying the session state
+  // and can otherwise fail with "Unknown database" on a fresh MySQL
+  // instance (e.g. a newly provisioned Railway MySQL service).
+  const bootstrapConnection = await mysql.createConnection({
+    host: config.db.host,
+    port: config.db.port,
+    user: config.db.user,
+    password: config.db.password,
+    multipleStatements: true,
+  })
+
+  try {
+    await bootstrapConnection.query(
+      `CREATE DATABASE IF NOT EXISTS \`${config.db.database}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`,
+    )
+  } finally {
+    await bootstrapConnection.end()
+  }
+
+  // Now that the database is guaranteed to exist, reconnect with it
+  // selected explicitly so every subsequent statement runs against it.
   const connection = await mysql.createConnection({
     host: config.db.host,
     port: config.db.port,
     user: config.db.user,
     password: config.db.password,
+    database: config.db.database,
     multipleStatements: true,
   })
 
